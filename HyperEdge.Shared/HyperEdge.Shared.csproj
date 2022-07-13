@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MagicOnion" Version="4.4.1" />
+    <PackageReference Include="MagicOnion.MSBuild.Tasks" Version="4.5.0" />
+    <PackageReference Include="MasterMemory" Version="2.4.3" />
+    <PackageReference Include="MasterMemory.MSBuild.Tasks" Version="2.4.3" PrivateAssets="All" />
+    <PackageReference Include="MessagePack.MSBuild.Tasks" Version="2.1.115" PrivateAssets="All" />    
+    <PackageReference Include="Ulid" Version="1.2.6" />
+  </ItemGroup>
+
+</Project>
+

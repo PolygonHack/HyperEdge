@@ -1,0 +1,74 @@
+version: '2.1'
+
+services:
+    he-redis: 
+        image: docker.io/bitnami/redis:6.2
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+        ports:
+            - '6379:6379'
+        volumes:
+            - 'redis_data:/bitnami/redis/data'
+    redisinsight:
+        image: redislabs/redisinsight
+        ports:
+            - 8082:8001
+    he-mariadb:
+        image: 'docker.io/bitnami/mariadb:10.7'
+        ports:
+            - '3306:3306'
+        volumes:
+            - 'mariadb_data:/bitnami/mariadb'
+            - $PWD/docker/mariadb/init:/docker-entrypoint-initdb.d:ro
+        environment:
+            - MARIADB_ROOT_PASSWORD=HMZx2R308eA3ULP3cUJx
+            - MARIADB_DATABASE=HEDB
+            - MARIADB_USER=he_master
+            - MARIADB_PASSWORD=BGsHN80a4ZRBZnCyV7Sl
+            - MARIADB_EXTRA_FLAGS=--server-id=1 --binlog-format=row --binlog-row-image=full --log-bin=mysql-bin --sync-binlog=1
+            - MARIADB_REPLICATION_MODE=master
+            - MARIADB_REPLICATION_USER=he_repl
+            - MARIADB_REPLICATION_PASSWORD=em33Eij48eJeFYOwvPqX
+        healthcheck:
+            test: ['CMD', '/opt/bitnami/scripts/mariadb/healthcheck.sh']
+            interval: 15s
+            timeout: 5s
+            retries: 6
+    he-nats:
+        image: 'docker.io/bitnami/nats:2'
+        ports:
+            - '4222:4222'
+            - '6222:6222'
+            - "8222:8222"
+        volumes:
+            - $PWD/docker/nats/nats-server.conf:/bitnami/nats/conf/nats-server.conf:ro
+
+    he-gameserver:
+        build:
+            context: $PWD/docker/gameserver
+        environment:
+            - ASPNETCORE_ENVIRONMENT=devel
+        links:
+            - he-mariadb
+            - he-redis
+        ports:
+            - 5001:5001
+        volumes:
+            - $PWD/docker/gameserver/appsettings.devel.json:/app/appsettings.devel.json:ro
+
+
+volumes:
+    redis_data:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: $PWD/docker/volume_data/redis
+    mariadb_data:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: $PWD/docker/volume_data/mariadb 
+
