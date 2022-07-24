@@ -8,7 +8,7 @@ using MicroOrm.Dapper.Repositories.Attributes.Joins;
 
 namespace HyperEdge.Backend.Db.Models
 {
-    [Table("GD_STORES")]
+    [Table("he_stores")]
     public class StoreModel : IModel<Ulid>
     {
         [Key]

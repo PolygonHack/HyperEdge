@@ -9,7 +9,7 @@ using Nethereum.Hex.HexConvertors.Extensions;
 
 namespace HyperEdge.Backend.Db.Models
 {
-    [Table("Erc20Tokens")]
+    [Table("he_erc20_tokens")]
     public class Erc20TokenModel : IModel<Ulid>
     {
 

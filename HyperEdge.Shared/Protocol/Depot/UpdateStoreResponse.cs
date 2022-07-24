@@ -10,9 +10,5 @@ namespace HyperEdge.Shared.Protocol
     public class UpdateStoreResponse
     {
         public StoreDTO Store { get; set; }
-        public UpdateStoreResponse(StoreDTO store)
-        {
-            Store = store;
-        }
     }
 }

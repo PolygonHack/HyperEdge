@@ -10,9 +10,5 @@ namespace HyperEdge.Shared.Protocol
     public class CreatePackageResponse
     {
         public PackageDTO Package { get; set; }
-        public CreatePackageResponse(PackageDTO package)
-        {
-            Package = package;
-        }
     }
 }

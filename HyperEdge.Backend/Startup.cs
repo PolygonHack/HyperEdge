@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MicroOrm.Dapper.Repositories.SqlGenerator;
+using Newtonsoft.Json;
 using Quartz;
 
 using HyperEdge.Backend.Auth;
@@ -24,6 +25,7 @@ using HyperEdge.Backend.Db;
 using HyperEdge.Backend.Repositories;
 using HyperEdge.Backend.Services;
 using HyperEdge.Backend.JobSystem;
+using HyperEdge.Shared.Utils;
 
 
 namespace HyperEdge.Backend
@@ -123,20 +125,17 @@ namespace HyperEdge.Backend
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //
-            //JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            //{
-            //    Converters = new List<JsonConverter> { new UlidConverter() }
-            //};
-            //
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new UlidConverter() }
+            };
             //
             var msgPackResolver = MessagePack.Resolvers.CompositeResolver.Create(
                 Cysharp.Serialization.MessagePack.UlidMessagePackResolver.Instance,
                 MessagePack.Resolvers.StandardResolver.Instance);
-            //
-            var msgPackOptions = MessagePackSerializerOptions.Standard
+            var msgPackoptions = MessagePackSerializerOptions.Standard
                 .WithResolver(msgPackResolver);
-            //
-            MessagePackSerializer.DefaultOptions = msgPackOptions;
+            MessagePackSerializer.DefaultOptions = msgPackoptions;
             //
             Dapper.SqlMapper.AddTypeHandler(new BinaryUlidHandler());
             //
@@ -162,7 +161,7 @@ namespace HyperEdge.Backend
                 endpoints.MapMagicOnionHttpGateway(
                     "api",
                     app.ApplicationServices.GetService<MagicOnion.Server.MagicOnionServiceDefinition>().MethodHandlers,
-                    GrpcChannel.ForAddress("http://localhost:5009"));
+                    GrpcChannel.ForAddress("http://localhost:5001"));
 
                 endpoints.MapMagicOnionSwagger("swagger",
                     app.ApplicationServices.GetService<MagicOnion.Server.MagicOnionServiceDefinition>().MethodHandlers,

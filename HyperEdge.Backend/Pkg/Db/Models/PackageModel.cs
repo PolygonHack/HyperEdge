@@ -8,7 +8,7 @@ using MicroOrm.Dapper.Repositories.Attributes.Joins;
 
 namespace HyperEdge.Backend.Db.Models
 {
-    [Table("GD_PACKAGES")]
+    [Table("he_packages")]
     public class PackageModel : IModel<Ulid>
     {
         [Key]

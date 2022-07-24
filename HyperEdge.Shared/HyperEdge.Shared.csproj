@@ -10,7 +10,8 @@
     <PackageReference Include="MagicOnion.MSBuild.Tasks" Version="4.5.0" />
     <PackageReference Include="MasterMemory" Version="2.4.3" />
     <PackageReference Include="MasterMemory.MSBuild.Tasks" Version="2.4.3" PrivateAssets="All" />
-    <PackageReference Include="MessagePack.MSBuild.Tasks" Version="2.1.115" PrivateAssets="All" />    
+    <PackageReference Include="MessagePack.MSBuild.Tasks" Version="2.1.115" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />    
     <PackageReference Include="Ulid" Version="1.2.6" />
   </ItemGroup>
 

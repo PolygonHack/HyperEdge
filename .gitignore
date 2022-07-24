@@ -402,11 +402,11 @@ FodyWeavers.xsd
 *.swo
 
 # docker deployment
-docker/gameserver/publish/*
+docker/hyperedge/publish/*
 docker/volume_data/redis/*
 docker/volume_data/mariadb/*
 docker/volume_data/debezium/*
-!docker/gameserver/publish/.gitkeep
+!docker/hyperedge/publish/.gitkeep
 !docker/volume_data/redis/.gitkeep
 !docker/volume_data/mariadb/.gitkeep
 !docker/volume_data/debezium/.gitkeep

@@ -16,21 +16,21 @@ namespace HyperEdge.Backend.Services
     public partial class DepotService : ServiceBase<IDepotService>, IDepotService
     {
         private readonly IMapper _mapper;
-        private readonly DbContext _db;
-        public DbContext Db { get => _db; }
+        private readonly IDbContext _db;
+        public IDbContext Db { get => _db; }
 
-        private readonly ISchedulerFactory _schedFactory;
+        //private readonly ISchedulerFactory _schedFactory;
         private readonly ILogger<DepotService> _logger;
 
         public DepotService(
             IMapper mapper,
-            DbContext db,
-            ISchedulerFactory schedFactory,
+            IDbContext db,
+            //ISchedulerFactory schedFactory,
             ILogger<DepotService> logger)
         {
             this._mapper = mapper;
             this._db = db;
-            this._schedFactory = schedFactory;
+            //this._schedFactory = schedFactory;
             this._logger = logger;
         }
 
@@ -40,21 +40,21 @@ namespace HyperEdge.Backend.Services
             this._mapper.Map(req.Package, pModel);
             await this.Db.Packages.InsertAsync(pModel);
             var pDto = this._mapper.Map<PackageDTO>(pModel);
-            return new CreatePackageResponse(pDto);
+            return new CreatePackageResponse { Package = pDto };
         }
         
         public async UnaryResult<UpdatePackageResponse> UpdatePackage(UpdatePackageRequest req)
         {
             var pModel = await this.Db.Packages.FindByIdAsync(req.PackageId);
             var pDto = this._mapper.Map<PackageDTO>(pModel);
-            return new UpdatePackageResponse(pDto);
+            return new UpdatePackageResponse { Package = pDto };
         }
         
         public async UnaryResult<GetPackageResponse> GetPackage(GetPackageRequest req)
         {
             var pModel = await this.Db.Packages.FindByIdAsync(req.PackageId);
             var pDto = this._mapper.Map<PackageDTO>(pModel);
-            return new GetPackageResponse(pDto);
+            return new GetPackageResponse { Package = pDto };
         }
 
         public async UnaryResult<GetStoreResponse> GetStore(GetStoreRequest req)
@@ -65,7 +65,7 @@ namespace HyperEdge.Backend.Services
                 throw new ReturnStatusException((Grpc.Core.StatusCode)99, "Store not found");
             }
             var sDto = this._mapper.Map<StoreDTO>(sModel);
-            return new GetStoreResponse(sDto);
+            return new GetStoreResponse { Store = sDto };
         }
 
         public async UnaryResult<CreateStoreResponse> CreateStore(CreateStoreRequest req)
@@ -78,7 +78,7 @@ namespace HyperEdge.Backend.Services
             Console.WriteLine($"{sModel.Id.ToString()}");
             await this.Db.Stores.InsertAsync(sModel);
             var sDto = this._mapper.Map<StoreDTO>(sModel);
-            return new CreateStoreResponse(sDto);
+            return new CreateStoreResponse { Store = sDto };
         }
 
         public async UnaryResult<UpdateStoreResponse> UpdateStore(UpdateStoreRequest req)
@@ -86,31 +86,33 @@ namespace HyperEdge.Backend.Services
             var sModel = await this.Db.Stores.FindByIdAsync(req.StoreId); 
             // FIXME
             var sDto = this._mapper.Map<StoreDTO>(sModel);
-            return new UpdateStoreResponse(sDto);
+            return new UpdateStoreResponse { Store = sDto };
         }
 
         public async UnaryResult<CreateErc20TokenResponse> CreateErc20Token(CreateErc20TokenRequest req)
         {
             var tModel = new Erc20TokenModel();
             this._mapper.Map(req, tModel);
+            tModel.Id = Ulid.NewUlid();
 
             await this.Db.Erc20Tokens.InsertAsync(tModel);
-            var sched = await _schedFactory.GetScheduler();    
+            //var sched = await _schedFactory.GetScheduler();    
             //await sched.TriggerJob(new JobKey("DeployErc20Token"));
             var tDto = this._mapper.Map<Erc20TokenDTO>(tModel);
-            return new CreateErc20TokenResponse(tDto);
+            return new CreateErc20TokenResponse { Erc20Token = tDto };
         }
 
         public async UnaryResult<CreateErc1155TokenResponse> CreateErc1155Token(CreateErc1155TokenRequest req)
         {
             var tModel = new Erc1155TokenModel();
             this._mapper.Map(req, tModel);
+            tModel.Id = Ulid.NewUlid();
 
             await this.Db.Erc1155Tokens.InsertAsync(tModel);
-            var sched = await _schedFactory.GetScheduler();
+            //var sched = await _schedFactory.GetScheduler();
             //await sched.TriggerJob(new JobKey("DeployErc1155Token"));
             var tDto = this._mapper.Map<Erc1155TokenDTO>(tModel);
-            return new CreateErc1155TokenResponse(tDto);
+            return new CreateErc1155TokenResponse { Erc1155Token = tDto };
         }
     }
 }

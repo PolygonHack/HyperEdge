@@ -18,7 +18,7 @@ namespace HyperEdge.Backend.Mappings
             CreateMap<StoreModel, StoreDTO>().ReverseMap();
             CreateMap<PackageModel, PackageDTO>().ReverseMap();
 
-            CreateMap<CreateErc20TokenRequest, Erc1155TokenModel>().ReverseMap();
+            CreateMap<CreateErc20TokenRequest, Erc20TokenModel>().ReverseMap();
             CreateMap<Erc20TokenModel, Erc20TokenDTO>().ReverseMap();
 
             CreateMap<CreateErc1155TokenRequest, Erc1155TokenModel>().ReverseMap();

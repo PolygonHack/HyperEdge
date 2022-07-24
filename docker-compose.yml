@@ -35,18 +35,18 @@ services:
             interval: 15s
             timeout: 5s
             retries: 6
-    he-nats:
-        image: 'docker.io/bitnami/nats:2'
-        ports:
-            - '4222:4222'
-            - '6222:6222'
-            - "8222:8222"
-        volumes:
-            - $PWD/docker/nats/nats-server.conf:/bitnami/nats/conf/nats-server.conf:ro
+    #he-nats:
+    #    image: 'docker.io/bitnami/nats:2'
+    #    ports:
+    #        - '4222:4222'
+    #        - '6222:6222'
+    #        - "8222:8222"
+    #    volumes:
+    #        - $PWD/docker/nats/nats-server.conf:/bitnami/nats/conf/nats-server.conf:ro
 
-    he-gameserver:
+    he-backend:
         build:
-            context: $PWD/docker/gameserver
+            context: $PWD/docker/hyperedge
         environment:
             - ASPNETCORE_ENVIRONMENT=devel
         links:
@@ -54,8 +54,9 @@ services:
             - he-redis
         ports:
             - 5001:5001
+            - 5002:5002
         volumes:
-            - $PWD/docker/gameserver/appsettings.devel.json:/app/appsettings.devel.json:ro
+            - $PWD/docker/hyperedge/appsettings.devel.json:/app/appsettings.devel.json:ro
 
 
 volumes:

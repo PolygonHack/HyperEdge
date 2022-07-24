@@ -1,8 +1,10 @@
 using System;
+using MessagePack;
 
 
 namespace HyperEdge.Shared.Protocol.Models
 {
+    [MessagePackObject(true)]
     public class Erc1155TokenDTO
     {
         public Ulid Id { get; set; }

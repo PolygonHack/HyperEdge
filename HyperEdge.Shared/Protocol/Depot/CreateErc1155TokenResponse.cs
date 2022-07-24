@@ -9,9 +9,5 @@ namespace HyperEdge.Shared.Protocol
     public class CreateErc1155TokenResponse
     {
         public Erc1155TokenDTO Erc1155Token { get; set; }
-        public CreateErc1155TokenResponse(Erc1155TokenDTO tm)
-        {
-            this.Erc1155Token = tm;
-        }
     }
 }
