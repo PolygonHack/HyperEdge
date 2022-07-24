@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using MessagePack;
 
 using HyperEdge.Shared.Protocol.Models;
@@ -6,9 +8,8 @@ using HyperEdge.Shared.Protocol.Models;
 namespace HyperEdge.Shared.Protocol
 {
     [MessagePackObject(true)]
-    public class CreateErc1155TokenRequest
+    public class GetErc20TokensResponse
     {
-        public string Name { get; set; }
-        public string Data { get; set; }
+        public List<Erc20TokenDTO> Tokens;
     }
 }

@@ -22,6 +22,8 @@ namespace HyperEdge.Backend.Services
         //private readonly ISchedulerFactory _schedFactory;
         private readonly ILogger<DepotService> _logger;
 
+        private readonly uint _perPage = 50;
+
         public DepotService(
             IMapper mapper,
             IDbContext db,
@@ -102,6 +104,21 @@ namespace HyperEdge.Backend.Services
             return new CreateErc20TokenResponse { Erc20Token = tDto };
         }
 
+        public async UnaryResult<GetErc20TokensResponse> GetErc20Tokens(GetErc20TokensRequest req)
+        {
+            uint offset = req.Page * _perPage;
+            uint limit = _perPage;
+            var tokenModels = await this.Db.Erc20Tokens.SetLimit(limit, offset).FindAllAsync(x => x.OwnerId == req.OwnerId);
+            
+            var tokens = new List<Erc20TokenDTO>();
+            foreach (var tModel in tokenModels)
+            {
+                var tDto = this._mapper.Map<Erc20TokenDTO>(tModel);
+                tokens.Add(tDto);
+            }
+            return new GetErc20TokensResponse { Tokens = tokens };
+        }
+
         public async UnaryResult<CreateErc1155TokenResponse> CreateErc1155Token(CreateErc1155TokenRequest req)
         {
             var tModel = new Erc1155TokenModel();
@@ -113,6 +130,21 @@ namespace HyperEdge.Backend.Services
             //await sched.TriggerJob(new JobKey("DeployErc1155Token"));
             var tDto = this._mapper.Map<Erc1155TokenDTO>(tModel);
             return new CreateErc1155TokenResponse { Erc1155Token = tDto };
+        }
+
+        public async UnaryResult<GetErc1155TokensResponse> GetErc1155Tokens(GetErc1155TokensRequest req)
+        {
+            uint offset = req.Page * _perPage;
+            uint limit = _perPage;
+            var tokenModels = await this.Db.Erc1155Tokens.SetLimit(limit, offset).FindAllAsync(x => x.OwnerId == req.OwnerId);
+            
+            var tokens = new List<Erc1155TokenDTO>();
+            foreach (var tModel in tokenModels)
+            {
+                var tDto = this._mapper.Map<Erc1155TokenDTO>(tModel);
+                tokens.Add(tDto);
+            }
+            return new GetErc1155TokensResponse { Tokens = tokens };
         }
     }
 }

@@ -15,6 +15,7 @@ namespace HyperEdge.Backend.Db.Models
 
         [Key]
         public Ulid Id { get; set; }
+        public Ulid OwnerId { get; set; }
         public byte[] Address { get; set; } = Array.Empty<byte>();
         [NotMapped]
         public string AddressHex { get => Address.ToHex(); }

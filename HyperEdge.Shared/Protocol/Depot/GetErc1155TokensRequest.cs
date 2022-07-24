@@ -1,3 +1,4 @@
+using System;
 using MessagePack;
 
 using HyperEdge.Shared.Protocol.Models;
@@ -6,9 +7,9 @@ using HyperEdge.Shared.Protocol.Models;
 namespace HyperEdge.Shared.Protocol
 {
     [MessagePackObject(true)]
-    public class CreateErc1155TokenRequest
+    public class GetErc1155TokensRequest
     {
-        public string Name { get; set; }
-        public string Data { get; set; }
+        public Ulid OwnerId { get; set; }
+        public uint Page { get; set; }
     }
 }

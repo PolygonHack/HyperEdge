@@ -9,9 +9,11 @@ namespace HyperEdge.Shared.Services
     {
         /* ERC-20 token API */
         public UnaryResult<CreateErc20TokenResponse> CreateErc20Token(CreateErc20TokenRequest req);
+        public UnaryResult<GetErc20TokensResponse> GetErc20Tokens(GetErc20TokensRequest req);
 
         /* ERC-1155 API */
         public UnaryResult<CreateErc1155TokenResponse> CreateErc1155Token(CreateErc1155TokenRequest req);
+        public UnaryResult<GetErc1155TokensResponse> GetErc1155Tokens(GetErc1155TokensRequest req);
 
         /* Stores API */
         public UnaryResult<GetStoreResponse> GetStore(GetStoreRequest req);

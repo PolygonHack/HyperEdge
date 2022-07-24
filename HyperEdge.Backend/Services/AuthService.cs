@@ -35,27 +35,23 @@ namespace HyperEdge.Backend.Services
         [AllowAnonymous]
         public async UnaryResult<GetChallengeResponse> GetChallengeAsync(GetChallengeRequest req)
         {
-            /*
-            var userModel = await _db.Users.FindByIdAsync(req.UserId);
-            if (userModel is null)
+            var accModel = await _db.Accounts.FindByIdAsync(req.UserId);
+            if (accModel is null)
             {
                 throw GeneralErrors.UserNotFound(req.UserId);
             }
-            */
-            //var challenge = await _challengeService.NewChallenge(userModel.Id, accModel.Address);
-            return new GetChallengeResponse { Challenge = "xxxx" };//challenge };
+            var challenge = await _challengeService.NewChallenge(accModel.Id, accModel.Address);
+            return new GetChallengeResponse { Challenge = challenge };
         }
 
         [AllowAnonymous]
         public async UnaryResult<ValidateChallengeResponse> ValidateAsync(ValidateChallengeRequest req)
         {
-            /*
             var verifResult = await _challengeService.VerifyChallenge(req.UserId, req.Signature);
             if (!verifResult)
             {
                 return ValidateChallengeResponse.Failed;
             }
-            */
             var (token, expires) = _jwtTokenService.CreateToken(req.UserId.ToString());
             return new ValidateChallengeResponse(token, expires);
         }
